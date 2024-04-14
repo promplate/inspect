@@ -1,0 +1,28 @@
+[project]
+name = "promplate-inspect"
+version = "0.0.2"
+description = "[WIP] Inspect a promplate.Template to get its signatures"
+authors = [{ name = "Muspi Merol", email = "me@promplate.dev" }]
+dependencies = ["promplate>=0.3.3.1.post1,<0.4"]
+requires-python = ">=3.8,<3.13"
+readme = "README.md"
+license = { text = "MIT" }
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = ["isort>=5.13.2", "black>=24.4.0", "ruff>=0.3.7"]
+
+[tool.pdm.scripts]
+fmt = { composite = ["ruff check --fix --exit-zero", "isort .", "black ."] }
+
+[tool.black]
+line-length = 180
+
+[tool.isort]
+line_length = 180
