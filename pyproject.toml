@@ -16,10 +16,11 @@ build-backend = "pdm.backend"
 distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = ["isort>=5.13.2", "black>=24.4.0", "ruff>=0.3.7"]
+dev = ["isort>=5.13.2", "black>=24.4.0", "ruff>=0.3.7", "pytest>=8.1.1"]
 
 [tool.pdm.scripts]
 fmt = { composite = ["ruff check --fix --exit-zero", "isort .", "black ."] }
+test = "pytest"
 
 [tool.black]
 line-length = 180
