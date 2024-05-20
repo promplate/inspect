@@ -87,6 +87,8 @@ def find_input_variables_in_template(template: Union[Template, str], exclude_bui
     tokens = []
 
     for token in split_template_tokens(text):
+        if token is None:
+            continue
         token = token.strip()
         if (
             (token.startswith("{{") and token.endswith("}}"))

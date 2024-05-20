@@ -1,6 +1,6 @@
 [project]
 name = "promplate-inspect"
-version = "0.0.2"
+version = "0.0.2.1"
 description = "[WIP] Inspect a promplate.Template to get its signatures"
 authors = [{ name = "Muspi Merol", email = "me@promplate.dev" }]
 dependencies = ["promplate>=0.3.3.1.post1,<0.4"]
