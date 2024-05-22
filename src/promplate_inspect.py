@@ -1,4 +1,4 @@
-from ast import Assign, AsyncFor, AugAssign, Call, For, List, ListComp, Load, Name, NodeVisitor, Starred, Store, Subscript, Tuple, expr, parse
+from ast import Assign, AsyncFor, AugAssign, Call, For, ListComp, Load, Name, NodeVisitor, Store, Subscript, parse
 from textwrap import dedent
 from typing import Set, Union
 
@@ -10,15 +10,6 @@ class VariableVisitor(NodeVisitor):
     def __init__(self):
         self.necessary_vars = set()
         self.unnecessary_vars = set()
-
-    def _mark_as_unnecessary(self, node: expr):
-        if isinstance(node, Name):
-            self.unnecessary_vars.add(node.id)
-        elif isinstance(node, (Tuple, List)):
-            for target in node.elts:
-                self._mark_as_unnecessary(target)
-        elif isinstance(node, Starred):
-            self._mark_as_unnecessary(node.value)
 
     def visit_Name(self, node: Name):
         if isinstance(node.ctx, Load) and node.id not in self.unnecessary_vars:
