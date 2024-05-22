@@ -1,7 +1,7 @@
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  main:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -11,11 +11,16 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pdm-project/setup-pdm@v4
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup python ${{ matrix.python }}
+        uses: pdm-project/setup-pdm@v4
         with:
           python-version: ${{ matrix.python }}
-      - run: pdm install
+
+      - name: install dependencies
+        run: pdm install
 
       - name: pytest
         run: pdm test -v
@@ -31,3 +36,27 @@ jobs:
 
       - name: pyright
         run: pdm run npx pyright
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup python 3.12
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: "3.12"
+
+      - name: build
+        run: pdm build
+
+      - name: publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+          print-hash: true
+          verbose: true
